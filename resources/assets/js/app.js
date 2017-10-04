@@ -23,9 +23,17 @@ const app = new Vue({
     data: {
         messages: []
     },
+    created() {
+        this.fetchMessages();
+    },
     methods: {
+        fetchMessages() {
+            axios.get('messages', (response) => {
+                this.messages = response.data;
+            });
+        },
         addMessage(message) {
-            this.messages = message;
+            this.messages.push(message);
 
             axios.post('messages', message, (response) => {
                 console.log(response.data);
