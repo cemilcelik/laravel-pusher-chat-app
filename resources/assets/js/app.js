@@ -19,5 +19,17 @@ Vue.component('chat-messages', require('./components/ChatMessages.vue'));
 Vue.component('chat-form', require('./components/ChatForm.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        messages: []
+    },
+    methods: {
+        addMessage(message) {
+            this.messages = message;
+
+            axios.post('messages', message, (response) => {
+                console.log(response.data);
+            });
+        }
+    }
 });
