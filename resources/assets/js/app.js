@@ -25,25 +25,25 @@ const app = new Vue({
     },
     created() {
         this.fetchMessages();
-
+        console.log(Echo.private('chat'));
         Echo.private('chat')
-            .listen('messagesent', (e) => {
+            .listen('MessageSent', (e) => {
                 this.messages.push({
-                    message: e.message,
+                    message: e.message.message,
                     user: e.user
                 });
             });
     },
     methods: {
         fetchMessages() {
-            axios.get('messages', (response) => {
+            axios.get('/messages').then((response) => {
                 this.messages = response.data;
+                console.log('Messages fetched.');
             });
         },
         addMessage(message) {
             this.messages.push(message);
-
-            axios.post('messages', message, (response) => {
+            axios.post('/messages', message).then((response) => {
                 console.log(response.data);
             });
         }
